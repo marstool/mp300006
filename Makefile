@@ -39,11 +39,13 @@ server:
 gen00:
 	tree -H '.' -L 1 --noreport --charset utf-8 > index.html
 
+PWD01:=$(shell basename $$(realpath .))
 gen:
 	cd public/ && rm -f CNAME index.html
-	cd public/ && tree -H '.' --noreport --charset utf-8 > index.html
+	cd public/ && tree -H 'http://marstool.github.io/$(PWD01)' --noreport --charset utf-8 > index.html
 	[ ! -f index.html ] || cat index.html > public/index.html 
 	make sed01
+	make sed02
 	cp CNAME public/
 	cat config > .git/config
 	@echo
@@ -62,3 +64,14 @@ sed01:
 		-e '/ by Florian Sesser/d' \
 		-e '/ by Kyosuke Tokoro/d' \
 		public/index.html
+
+#	<a href=".">.</a><br>
+#	└── <a href="./index.html">index.html</a><br>
+
+sed02Text:=<a href="http://mp3s.jjj123.com">mp3s.jjj123.com</a>
+sed02:
+	sed -i \
+	-e 's;<a href=".">.</a>;$(sed02Text);g' \
+	-e 's;<a href="./index.html">index.html</a>;$(sed02Text);g' \
+		public/index.html
+
