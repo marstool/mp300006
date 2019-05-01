@@ -68,10 +68,11 @@ sed01:
 #	<a href=".">.</a><br>
 #	└── <a href="./index.html">index.html</a><br>
 
-sed02Text:=<a href="http://mp3s.jjj123.com">mp3s.jjj123.com</a>
+sed02Text:=<a href="http://marstool.github.io/mp3s">marstool.github.io</a>
 sed02:
 	sed -i \
 	-e 's;<a href=".">.</a>;$(sed02Text);g' \
 	-e 's;<a href="./index.html">index.html</a>;$(sed02Text);g' \
+	-e 's;<h1>Directory Tree</h1>;<h1>$(sed02Text)</h1>;g' \
 		public/index.html
 
